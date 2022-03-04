@@ -1,0 +1,47 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.cd {
+  margin: 10vh;
+  text-align: center;
+}
+.navbar {
+  background-color: rgb(31, 3, 187) !important;
+  color: white;
+  width: 100%;
+}
+
+.navtags {
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+  margin: 0 0.3rem;
+}
+
+.formcard {
+  margin: 10vh auto;
+  max-width: 60ch;
+  box-shadow: 0px 10px 38px 6px rgba(0, 0, 0, 0.22);
+  /* min-width: 10ch; */
+}
+
+.tablecard {
+  margin: 10vh auto;
+  max-width: 100ch;
+  box-shadow: 0px 10px 38px 6px rgba(0, 0, 0, 0.22);
+  border-radius: 0.5rem;
+  text-align: left;
+}
+
+.search{
+  width: 30%;
+  
+}
+
+.hide{
+  /* display: none; */
+  visibility: hidden;
+
+}
