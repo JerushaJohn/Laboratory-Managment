@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useRef, useState } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap'
 
-const GlucometryUpdate = ({ id, glycoUpdateform, setglycoUpdateform, glucData }) => {
+const GlucometryUpdate = ({ id, glycoUpdateform, setglycoUpdateform, glucData,reload }) => {
 
 
     const [glycuUpdateDate, setglycuUpdateDate] = useState({})
@@ -37,7 +37,7 @@ const GlucometryUpdate = ({ id, glycoUpdateform, setglycoUpdateform, glucData })
         const { fbs, ppbs, gh, calcium } = glycuUpdateDate
         console.log(fbs, ppbs, gh, calcium);
         if (!fbs || !ppbs || !gh || !calcium) {
-            console.log('empth');
+            console.log('empty');
         } else {
             try {
                 console.log('try');
@@ -46,6 +46,7 @@ const GlucometryUpdate = ({ id, glycoUpdateform, setglycoUpdateform, glucData })
                 if (data.data.error === false) {
                     console.log(data.data.error, " ---------------set false");
                 }
+                reload();
                 setglycoUpdateform(false);
             } catch (err) {
                 console.log("err", err);

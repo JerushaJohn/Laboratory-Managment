@@ -1,12 +1,14 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Button, FormControl, Table } from 'react-bootstrap'
+import { Button, Table } from 'react-bootstrap'
+import axiosInstance from './config/axiosconfig'
 import GlucometryForm from './glucometry/GlucometryForm'
 import GlucometryReport from './glucometry/GlucometryReport'
 import GlucometryUpdate from './glucometry/GlucometryUpdate'
 import Haematology from './haematology/Haematology'
 import HaematologyReport from './haematology/HaematologyReport'
 import HaematologyUpdate from './haematology/HaematologyUpdate'
+import Navigationbar from './Navigationbar'
 import Thyroidform from './thyroid/Thyroidform'
 import ThyroidReport from './thyroid/ThyroidReport'
 import ThyroidUpdate from './thyroid/ThyroidUpdate'
@@ -16,18 +18,21 @@ const Samples = () => {
   // table data
   const [samples, setsamples] = useState([])
 
+  const reload = () => {
+    getdata()
+  }
 
   //====================== FORMS MODALS  ======================// 
 
-  // Haematology model
+  // Haematology modal
   const [haemForm, sethaemForm] = useState(false)
   const [haemid, sethaemid] = useState()
 
-  // Thyroid model
+  // Thyroid modal
   const [thyroidForm, setThyroidForm] = useState(false)
   const [thyrid, setthyrid] = useState()
 
-  // Glucometry model
+  // Glucometry modal
   const [GlucomForm, setGlucomForm] = useState(false)
   const [Glucid, setGlucid] = useState()
 
@@ -55,7 +60,6 @@ const Samples = () => {
   const [glycoUpdateform, setglycoUpdateform] = useState(false)
 
 
-
   useEffect(() => {
     getdata();
   }, [])
@@ -63,10 +67,19 @@ const Samples = () => {
 
 
   const getdata = async () => {
-    console.log('in sample')
+    console.log('in sample');
+    console.log(axiosInstance)
     try {
-      const data = await axios.get(`/sample`)
-      console.log(data.data);
+      // const token = localStorage.getItem('isAuthenticated');
+
+      // const data = await axios.get(`/sample`)
+      // const data = await axios.post(`/sample`, { token });
+
+
+      const data = await axiosInstance.get('/sample')
+
+
+      console.log(data.data, '-------responce');
       setsamples(data.data);
     } catch (err) {
       console.log(err);
@@ -127,6 +140,8 @@ const Samples = () => {
 
   return (
     <>
+      <Navigationbar />
+
       <div className='cd'>
         <Table hover className='tablecard p-5' variant="light" responsive>
           <thead>
@@ -135,15 +150,15 @@ const Samples = () => {
               <th className='th'>Patient Name</th>
               <th className='th'>Email</th>
               <th className='th'>Sample ID</th>
-              <th className='th'>haemaology </th>
-              <th className='th'>Thyroid Profile </th>
+              <th className='th'>Haematology </th>
+              <th className='th'>Thyroid  </th>
               <th className='th'>Glucometry </th>
             </tr>
           </thead>
 
           <tbody>
 
-            {samples.map((val, inx) => {
+            {samples && samples.map((val, inx) => {
               return (
                 <tr key={inx}>
                   <td>{val._id}</td>
@@ -160,18 +175,18 @@ const Samples = () => {
 
         </Table>
 
-        <Haematology haemForm={haemForm} sethaemForm={sethaemForm} id={haemid && haemid} />
-        <Thyroidform thyroidForm={thyroidForm} setThyroidForm={setThyroidForm} id={thyrid} />
-        <GlucometryForm GlucomForm={GlucomForm} setGlucomForm={setGlucomForm} id={Glucid} />
+        <Haematology reload={reload} haemForm={haemForm} sethaemForm={sethaemForm} id={haemid && haemid} />
+        <Thyroidform reload={reload} thyroidForm={thyroidForm} setThyroidForm={setThyroidForm} id={thyrid} />
+        <GlucometryForm reload={reload} GlucomForm={GlucomForm} setGlucomForm={setGlucomForm} id={Glucid} />
 
-        <HaematologyUpdate sethemoUpdateform={sethemoUpdateform} hemoUpdateform={hemoUpdateform} id={hemoUpdateid && hemoUpdateid} hemoData={hemoData} />
-        <GlucometryUpdate id={glycUpdateid && glycUpdateid} glycoUpdateform={glycoUpdateform} setglycoUpdateform={setglycoUpdateform} glucData={glucData} />
-        <ThyroidUpdate setthyrUpdateform={setthyrUpdateform} thyrUpdateform={thyrUpdateform} thyrupdateid={thyrupdateid} thyrData={thyrData} />
+        <HaematologyUpdate reload={reload} sethemoUpdateform={sethemoUpdateform} hemoUpdateform={hemoUpdateform} id={hemoUpdateid && hemoUpdateid} hemoData={hemoData} />
+        <GlucometryUpdate reload={reload} id={glycUpdateid && glycUpdateid} glycoUpdateform={glycoUpdateform} setglycoUpdateform={setglycoUpdateform} glucData={glucData} />
+        <ThyroidUpdate reload={reload} setthyrUpdateform={setthyrUpdateform} thyrUpdateform={thyrUpdateform} id={thyrupdateid && thyrupdateid} thyrData={thyrData} />
 
 
-        {samples.length > 0 && <HaematologyReport haemReport={haemReport} sethaemReport={sethaemReport} hemoData={hemoData} sethaemForm={sethaemForm} sethemoUpdateform={sethemoUpdateform} />}
-        {samples.length > 0 && <ThyroidReport thyroidReport={thyroidReport} setThyroidReport={setThyroidReport} thyrData={thyrData} setThyroidForm={setThyroidForm} setthyrUpdateform={setthyrUpdateform} />}
-        {samples.length > 0 && <GlucometryReport GlucomReport={GlucomReport} setGlucomReport={setGlucomReport} glucData={glucData && glucData} setGlucomForm={setGlucomForm} setglycoUpdateform={setglycoUpdateform} />}
+        {samples.length > 0 && <HaematologyReport reload={reload} haemReport={haemReport} sethaemReport={sethaemReport} hemoData={hemoData} sethaemForm={sethaemForm} sethemoUpdateform={sethemoUpdateform} />}
+        {samples.length > 0 && <ThyroidReport reload={reload} thyroidReport={thyroidReport} setThyroidReport={setThyroidReport} thyrData={thyrData} setThyroidForm={setThyroidForm} setthyrUpdateform={setthyrUpdateform} />}
+        {samples.length > 0 && <GlucometryReport reload={reload} GlucomReport={GlucomReport} setGlucomReport={setGlucomReport} glucData={glucData && glucData} setGlucomForm={setGlucomForm} setglycoUpdateform={setglycoUpdateform} />}
 
       </div>
 

@@ -14,7 +14,6 @@ router.use(cookieparser())
 
 router.post('/login', async (req, res) => {
     const { email, password } = req.body
-    // console.log(req.body);
 
     if (!email || !password) {
         res.json({
@@ -25,13 +24,11 @@ router.post('/login', async (req, res) => {
     } else {
 
         try {
-            // const userdata = await database.find({ role: "user" });
             const data = await database.findOne({ email: email, password: password });
             console.log(data);
-            token = await data.ganerateToken();
+            token = await data.genarateToken();
 
             console.log(token);
-            // res.cookie(`brotokens`, token)
 
             if (!data) {
                 res.json({
@@ -40,7 +37,7 @@ router.post('/login', async (req, res) => {
                     data: null
                 })
             } else {
-                res.cookie("brotokens", token)
+                res.cookie("authLogintoken", token)
                 if (data.role === "admin") {
                     res.json({
                         error: false,
@@ -124,9 +121,17 @@ router.post('/register', async (req, res) => {
 
 
 
-router.get('/samples',  Authenticate, async (req, res) => {
+router.get('/sample',   async (req, res) => {
+    // console.log(req.body,'------------postM');
+
     res.send('dfghjk')
+});
+
+
+router.post('/sample',Authenticate, async (req, res) => {
+    console.log(req.body,'------------postM');
+    res.send(req.body);
 })
 
 
-module.exports= router
+module.exports = router

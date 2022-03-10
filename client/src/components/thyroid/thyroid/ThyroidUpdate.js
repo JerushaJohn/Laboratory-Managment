@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap'
 
-const ThyroidUpdate = ({ setthyrUpdateform, thyrUpdateform, thyrData, id }) => {
+const ThyroidUpdate = ({ reload, setthyrUpdateform, thyrUpdateform, thyrData, id }) => {
 
     const [thyroidData, setthyroidData] = useState({})
     const tri = useRef()
@@ -43,6 +43,7 @@ const ThyroidUpdate = ({ setthyrUpdateform, thyrUpdateform, thyrData, id }) => {
                     },
                     body: JSON.stringify({ tri, tsh, thyroxine, id })
                 })
+                reload()
                 setthyrUpdateform(false);
 
                 const data = await res.json();

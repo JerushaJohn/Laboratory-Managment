@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Card, FloatingLabel, Form } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import Navigationbar from "./Navigationbar";
 
 const RegistrationPage = () => {
   const [register, setregister] = useState({});
@@ -34,14 +35,11 @@ const RegistrationPage = () => {
     password: "",
   });
   const handleChange = (e) => {
-    // console.log(e);
     const { name, value } = e.target;
 
     let copy = { ...reg, [name]: value };
-    // console.log(copy);
     setReg(copy);
   };
-  // console.log(reg);
 
   const handleSubmit = (e) => {
     setError(validate(reg));
@@ -74,14 +72,7 @@ const RegistrationPage = () => {
   const registeruser = async () => {
     try {
       const { name, email, password, role, test } = register;
-      // const res = await fetch("/register", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json"
-      //   },
-      //   body: JSON.stringify({ name, email, password, role, test })
-      // });
-
+     
       const data = await axios.post("/register", {
         name,
         email,
@@ -98,7 +89,7 @@ const RegistrationPage = () => {
         // alert(data.message)
       } else {
         alert(data.data.message);
-        history.push("/Loginpage");
+        history.push("/");
       }
     } catch (err) {
       console.log(err);
@@ -112,6 +103,8 @@ const RegistrationPage = () => {
 
   return (
     <div>
+      <Navigationbar />
+
       <Card className="formcard p-5">
         <Form method='"POST'>
           <h4>Registration form</h4>

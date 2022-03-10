@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react'
 import { Button, FloatingLabel, Form, Modal } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
+import Navigationbar from './Navigationbar'
 
 
 
@@ -54,6 +55,8 @@ const EnterSample = () => {
   }
 
   const CollectData = () => {
+
+
     setsendDate({
       user: user.current.value,
       hemo: hemo,
@@ -63,19 +66,37 @@ const EnterSample = () => {
     postDate();
   }
 
+
+
   const postDate = async () => {
 
+
+
+
     try {
+
       const { user, hemo, thyr, glu } = sendDate
-      const send = await axios.post('/Entersample', { user, hemo, thyr, glu })
-      console.log(send.data);
-      if (send.data) {
-        history.push('/Samples')
+      console.log(user, hemo, thyr, glu);
+
+      if (user || hemo || thyr || glu) {
+        var send = await axios.post('/entersample', { user, hemo, thyr, glu })
+        console.log(send.data.error)
+        if (send.data.error === false) {
+          history.push('/samples');
+        } else {
+          history.push('/entersample')
+        }
+
+
       } else {
-        history.push('/EnterSample')
+        console.log('empty')
+
+
       }
 
     } catch (err) {
+
+      console.log('empty')
 
     }
 
@@ -85,15 +106,18 @@ const EnterSample = () => {
 
   return (
     <>
+      <Navigationbar />
+
       <Modal.Dialog>
         <Modal.Header >
           <Modal.Title>Creat Test </Modal.Title>
         </Modal.Header>
-        {/* <Modal.Header > */}
-        <div className='container'>
+
+
+        <div className='container mt-3'>
           <FloatingLabel controlId="floatingSelect" label=" selects Patient" className="mb-4" >
-            <Form.Select aria-label="Floating label select example" ref={user} >
-              {/* <option value="user">*</option> */}
+            <Form.Select aria-label="Floating label select example" ref={user}  >
+
               {samples.map((val, inx) => {
                 return <option value={val._id} key={inx}>{val.name}</option>
               })}
@@ -102,17 +126,11 @@ const EnterSample = () => {
         </div>
 
 
-
-        {/* </Modal.Header> */}
-
         <Modal.Body>
-          {/* <Form.Check type="radio" name="radio 1" id='1' label="Haemotology" onChange={radio} /> */}
           <Form.Check type="checkbox" name="radio 1" id='1' label="Haemotology" onChange={radio} />
           <br />
-          {/* <Form.Check type="radio" name="radio 1" id='2' label="Glucometry" onChange={radio} /> */}
           <Form.Check type="checkbox" name="radio 1" id='2' label=" Thyroid Profile" onChange={radio} />
           <br />
-          {/* <Form.Check type="radio" name="radio 1" id='3' label="Thyroid Profile" onChange={radio} /> */}
           <Form.Check type="checkbox" name="radio 1" id='3' label="Glucometry" onChange={radio} />
         </Modal.Body>
 

@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useRef, useState } from 'react'
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 
-const Haematology = ({ haemForm, sethaemForm, id }) => {
+const Haematology = ({ haemForm, sethaemForm, id,reload }) => {
 
     const [haemoData, sethaemoData] = useState({})
 
@@ -59,6 +59,7 @@ const Haematology = ({ haemForm, sethaemForm, id }) => {
                 if (data.data.error === false) {
                     console.log(data.data.error, " ---------------set false");
                 }
+                reload()
                 sethaemForm(false);
 
                 // const data = await res.json();

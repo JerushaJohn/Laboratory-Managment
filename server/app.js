@@ -25,9 +25,8 @@ app.post('/', function (req, res) {
 })
 
 
-
 app.post('/login', async (req, res) => {
-    console.log('login', req.body);
+    // console.log('login', req.body);
     const { email, password } = req.body
 
     if (!email || !password) {
@@ -39,43 +38,22 @@ app.post('/login', async (req, res) => {
     } else {
 
         try {
-            // const userdata = await database.find({ role: "user" });
             const data = await database.findOne({ email: email, password: password });
-            // console.log(data);
-            token = await data.ganerateToken();
 
-            // let token = jwt.sign({ email: email }, process.env.SECRET_KEY,);
-
-
-
-            // console.log('TOKEN===>>',token);
-            res.cookie(`brotokens`, token)
             if (!data) {
                 res.json({
                     error: true,
-                    message: "login failed...!",
+                    message: "invalid credential...!",
                     data: null
                 })
             } else {
-                res.cookie("brotokens", token)
-                if (data.role === "admin") {
-                     res.json({
-                        error: false,
-                        message: "login succesfull...!",
-                        data:data,
-                        token:token
-                    })
-                    // res.cookie()
-
-                } else {
-                    res.json({
-                        error: false,
-                        message: "login succesfull...!",
-                        data: data.role
-                    })
-                    // res.cookie()//
-                }
-
+                token = await data.genarateToken();
+                res.json({
+                    error: false,
+                    message: "login succesfull...!",
+                    role: data.role,
+                    token: token
+                })
             }
 
         } catch (err) {
@@ -142,18 +120,20 @@ app.post('/register', async (req, res) => {
 })
 
 
+
+
 app.get('/sample', Authenticate, async (req, res) => {
-    // console.log(req.token)
+    console.log(req.body)
     res.send(req.token);
-    // res.status(200).json("samples")
-})
+});
+
+
 
 
 app.get('/entersample', Authenticate, async (req, res) => {
-    console.log('1111', req.body);
-    res.send(req.token)
+    // console.log('1111', req.body);
+    res.send(req.token);
 })
-
 
 app.post('/entersample', async (req, res) => {
 
@@ -161,20 +141,18 @@ app.post('/entersample', async (req, res) => {
     const { user, hemo, thyr, glu } = req.body
     console.log(user, hemo, thyr, glu);
 
-    // const status = { status: true, data: [{  hemo, thyr, glu }] }
     const status = { hemo, thyr, glu }
-
-
     await database.updateOne({ _id: user }, { $set: { test: true } })
     await database.updateOne({ _id: user }, { $set: { status: status } })
-
-
-    res.send(req.body)
+    res.json({
+        error: false,
+        message: "sample created",
+        data: null
+    })
 });
 
-
 app.post('/heamatology', async (req, res) => {
-   
+
     console.log(req.body)
     const { id, haemoglobin, neutrophils, eosinophiles, basophills, pcv, wbc, lymphocytes, monocytes, rbc, mcv } = req.body
 
@@ -193,13 +171,17 @@ app.post('/heamatology', async (req, res) => {
 app.post('/thyroid', async (req, res) => {
 
     console.log(req.body, "--------check");
-    const { id, tri, tsh, thyroxine } = req.body
-    const thyroid = { tri, tsh, thyroxine }
-    console.log( tri, tsh, thyroxine ,"--------check2")
+    const { id, tri, thyroxine, tsh } = req.body
+    const thyroid = { tri, thyroxine, tsh }
+    console.log(tri, tsh, thyroxine, id, "--------check2")
 
-    await database.updateOne({ _id: id }, { $set: { thyroid: [thyroid], test: true } })
+    await database.updateOne({ _id: id }, { $set: { thyroid: thyroid, test: true } })
 
-    res.json("data submited")
+    res.status(200).send({
+        error: false,
+        massage: " data saved",
+        data: null
+    });
 })
 
 app.post('/glucometry', async (req, res) => {
@@ -218,4 +200,4 @@ app.post('/glucometry', async (req, res) => {
 })
 
 
-module.exports =app
+module.exports = app

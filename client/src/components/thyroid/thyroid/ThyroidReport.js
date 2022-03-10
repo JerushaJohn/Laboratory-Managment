@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Modal, Table } from 'react-bootstrap'
 
-const ThyroidReport = ({ setthyrUpdateform, thyroidReport, setThyroidReport, setThyroidForm, thyrData }) => {
+const ThyroidReport = ({ reload, setthyrUpdateform, thyroidReport, setThyroidReport, setThyroidForm, thyrData }) => {
 
 
 
@@ -11,6 +11,7 @@ const ThyroidReport = ({ setthyrUpdateform, thyroidReport, setThyroidReport, set
 
     const Update = () => {
         setThyroidReport(false)
+        reload()
         setthyrUpdateform(true)
     }
 

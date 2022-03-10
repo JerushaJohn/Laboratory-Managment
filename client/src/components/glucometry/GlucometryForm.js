@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useRef, useState } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap'
 
-const GlucometryForm = ({ GlucomForm, setGlucomForm, id }) => {
+const GlucometryForm = ({ GlucomForm, setGlucomForm, id,reload }) => {
 
     const [glucData, setglucData] = useState()
 
@@ -36,6 +36,7 @@ const GlucometryForm = ({ GlucomForm, setGlucomForm, id }) => {
                 if (data.data.error === false) {
                     console.log(data.data.error, " ---------------set false");
                 }
+                reload();
                 setGlucomForm(false);
             } catch (err) {
                 console.log("err", err);

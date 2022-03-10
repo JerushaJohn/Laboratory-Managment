@@ -1,9 +1,9 @@
 import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react'
+import React, {  useRef, useState } from 'react'
 import { Button, Card, FloatingLabel, Form } from 'react-bootstrap'
 import { FaEnvelope, FaLock } from "react-icons/fa";
-// import { BsFillPersonFill ,BsFillPersonPlusFill} from "react-icons/bs";
 import { useHistory } from 'react-router-dom';
+import Navigationbar from './Navigationbar';
 
 const Loginpage = (props) => {
 
@@ -11,7 +11,6 @@ const Loginpage = (props) => {
 
   const email = useRef()
   const password = useRef()
-
   const history = useHistory()
 
 
@@ -19,7 +18,6 @@ const Loginpage = (props) => {
     email: "",
     password: ""
   })
-
 
   const UserLogin = () => {
     setloginuser({
@@ -30,46 +28,42 @@ const Loginpage = (props) => {
     login();
   }
 
-
   const login = async () => {
     const { email, password } = loginuser
 
-    try {
-      const data = await axios.post("/login", { email, password });
+    if (!email && !password) {
+      // alert('1');
+    } else {
 
-      console.log("data>>", data);
-      const role = data.role;
-      console.log(role);
-      localStorage.setItem("role", role);
-      if (data.data.error) {
-        console.log(data.data.message);
-        // alert(data.data.message);
-      } else {
-        alert(data.data.message);
-        localStorage.setItem("login", true)
-        props.setisLogin(true);
-        history.push('/samples');
-      }
-    } catch (err) {
+      try {
 
+        const data = await axios.post("/login", { email, password });
+        console.log("data>>", data);
+        console.log(data.data.error);
+        if (data.data.error) {
+          console.log(data.data.message);
+          alert(data.data.message)
+        } else {
+          alert(data.data.message);
+          console.log(data.data.message);
+          console.log(data.data.token);
+
+          localStorage.setItem("isAuthenticated", data.data.token);
+          localStorage.setItem("role", data.data.role);
+          history.push('/samples');
+        }
+      } catch (err) { }
     }
-
   }
 
 
-
-  useEffect(() => {
-    console.log(loginuser);
-    login();
-  }, [])
-
-
-  
   return (
     <div>
+      <Navigationbar />
+
       <Card className='formcard p-5'>
         <Form method="POST">
-          <h4>Please Login!</h4>
+          <h3>Please Login</h3>
           <Card.Body>
             <FloatingLabel controlId="floatingInput" label={<FaEnvelope />} className="mt-5 mb-4" >
               <Form.Control type="email" placeholder="enter email" ref={email} />

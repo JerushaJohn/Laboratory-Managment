@@ -4,9 +4,6 @@ import { Button, Modal, Table } from 'react-bootstrap'
 const ThyroidReport = ({ thyroidReport, setThyroidReport, setthyrUpdateform, setThyroidForm, thyrData }) => {
 
 
-
-
-
     const [report1, setreport1] = useState([{ _id: "" }])
 
     const Update = () => {
@@ -14,8 +11,6 @@ const ThyroidReport = ({ thyroidReport, setThyroidReport, setthyrUpdateform, set
         setthyrUpdateform(true)
     }
 
-
-    // const [report1, setreport1] = useState()
 
     useEffect(() => {
         setreport1(thyrData)

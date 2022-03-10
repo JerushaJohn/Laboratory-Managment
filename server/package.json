@@ -9,7 +9,7 @@
   "jest": {
     "testEnvironment": "node"
   },
-  "author": "PRAVEEN",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "cookie-parser": "^1.4.6",

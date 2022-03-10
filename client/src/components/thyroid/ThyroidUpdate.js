@@ -1,9 +1,14 @@
 import React, { useRef, useState } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap'
 
-const ThyroidUpdate = ({ setthyrUpdateform, thyrUpdateform, thyrData, id }) => {
+const ThyroidUpdate = ({ setthyrUpdateform, thyrUpdateform, thyrData, id,reload }) => {
 
     const [thyroidData, setthyroidData] = useState({})
+
+    if(thyrData){
+        var data=thyrData[0]
+    }
+
     const tri = useRef()
     const thyroxine = useRef()
     const tsh = useRef()
@@ -20,18 +25,13 @@ const ThyroidUpdate = ({ setthyrUpdateform, thyrUpdateform, thyrData, id }) => {
     }
 
 
-    if (thyrData) {
-        var data = thyrData[0]
-        console.log(data, "-------------in thyroid");
-    }
-
 
     const formdata = async () => {
         console.log(thyroidData);
         const { tri, tsh, thyroxine } = thyroidData
         console.log(tri, tsh, thyroxine);
         if (!tri || !tsh || !thyroxine) {
-            console.log('empth');
+            console.log('empty');
         } else {
             try {
                 console.log('try');
@@ -41,7 +41,8 @@ const ThyroidUpdate = ({ setthyrUpdateform, thyrUpdateform, thyrData, id }) => {
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({ tri, tsh, thyroxine, id })
-                })
+                });
+                reload();
                 setthyrUpdateform(false);
 
 

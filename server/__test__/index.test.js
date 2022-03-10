@@ -36,30 +36,5 @@ describe("GET /register",()=>{
 })
     
 
-describe('GET /sample',()=>{
-    var token=null;
-
-    beforeEach((done)=>{
-    const res =    request(app)
-          .post('login')
-          .send({
-            "email":"jerusha@gmail.com",
-            "password":"jerusha"
-          })
-          .end((err,res)=>{
-              console.log();
-          })
-        console.log(res._body.token);
-    })
-
-    test("OK, Samples getting",async ()=>{
-        const res = await request(app)
-                        .get('sample')
-                        .set("Authorization", 'Bearer ' + token)
-                    console.log(res);
-                    expect(res.statusCode).toEqual(200)
-
-    })
-})
 
 

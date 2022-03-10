@@ -12,7 +12,6 @@ const GlucometryReport = ({ GlucomReport, setGlucomReport, glucData, setglycoUpd
         setglycoUpdateform(true)
     }
 
-    // const [report1, setreport1] = useState()
 
     useEffect(() => {
         setreport1(glucData)
@@ -20,7 +19,6 @@ const GlucometryReport = ({ GlucomReport, setGlucomReport, glucData, setglycoUpd
 
     if (report1) {
         var ele = report1[0]
-        // console.log("glyco:", ele);
     }
 
 
@@ -50,14 +48,14 @@ const GlucometryReport = ({ GlucomReport, setGlucomReport, glucData, setglycoUpd
 
 
                                 <>
-                                    <tr>
+                                     <tr>
                                         <th>Fasting body Suger</th>
-                                        <th>{ele.calcium}</th>
+                                        <th>{ele.fbs}</th>
                                     </tr>
-
+                                   
                                     <tr>
                                         <th>post Prand Sugerial</th>
-                                        <th>{ele.fbs}</th>
+                                        <th>{ele.ppbs}</th>
                                     </tr>
                                     <tr>
                                         <th>HbA1c</th>
@@ -65,8 +63,10 @@ const GlucometryReport = ({ GlucomReport, setGlucomReport, glucData, setglycoUpd
                                     </tr>
                                     <tr>
                                         <th>calcium</th>
-                                        <th>{ele.ppbs}</th>
+                                        <th>{ele.calcium}</th>
                                     </tr>
+                                   
+
 
                                 </>
 

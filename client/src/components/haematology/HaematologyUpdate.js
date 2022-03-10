@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 
-const HaematologyUpdate = ({ id, sethemoUpdateform, hemoUpdateform, hemoData }) => {
+const HaematologyUpdate = ({ id, sethemoUpdateform, hemoUpdateform, hemoData, reload }) => {
 
     const [Updatehemodata, setUpdatehemodata] = useState()
 
@@ -17,7 +17,6 @@ const HaematologyUpdate = ({ id, sethemoUpdateform, hemoUpdateform, hemoData }) 
     const rbc = useRef()
     const mcv = useRef()
 
-    // console.log(id, hemoData, "-------------update id , data")
 
     const onHide = () => {
         setUpdatehemodata({
@@ -32,8 +31,7 @@ const HaematologyUpdate = ({ id, sethemoUpdateform, hemoUpdateform, hemoData }) 
             rbc: rbc.current.value,
             mcv: mcv.current.value,
         })
-
-        update()
+        update();
     }
 
     useEffect(() => {
@@ -66,6 +64,7 @@ const HaematologyUpdate = ({ id, sethemoUpdateform, hemoUpdateform, hemoData }) 
                 if (data.data.error === false) {
                     console.log(data.data.error, " ---------------set false");
                 }
+                reload();
                 sethemoUpdateform(false);
                 console.log(data.data.error);
             } catch (err) {
@@ -75,7 +74,6 @@ const HaematologyUpdate = ({ id, sethemoUpdateform, hemoUpdateform, hemoData }) 
 
 
 
-        // sethemoUpdateform(false)
     }
 
 

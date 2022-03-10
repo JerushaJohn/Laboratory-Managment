@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Modal, Table } from 'react-bootstrap'
 
-const HaematologyReport = ({ haemReport, sethaemReport, hemoData, sethemoUpdateform }) => {
+const HaematologyReport = ({ haemReport, sethaemReport, hemoData, sethemoUpdateform, reload }) => {
 
     const [report1, setreport1] = useState([{ _id: "" }])
     const Update = () => {
         sethaemReport(false)
+        reload()
         sethemoUpdateform(true)
     }
 
